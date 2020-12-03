@@ -1,5 +1,4 @@
 # coding=utf-8
-#!/usr/bin/python3
 
 # pip install xlrd
 import xlrd
@@ -11,7 +10,8 @@ import re
 
 
 # 可能需要修改的点：
-# 1.source_path: 文案Excel路径 2.soundcore_path/anker_work_path: 项目路径
+# 1.soundcore_path/anker_work_path: 项目路径
+# 2.sheet_name
 
 # 文案Excel路径
 global source_path
@@ -22,7 +22,7 @@ anker_work_path = "/Users/Anker/MyProject/AnkerWork/AnkerWork/AnkerWork/Resource
 anker_work_excel_path = "/Users/Anker/Downloads/多语言文案-Anker work App.xlsx"
 soundcore_excel_path = "/Users/Anker/Downloads/开发使用_SoundCore文案汇总.xlsx"
 # 选择需要导出文案的sheet
-sheet_name = "开发新增词条"
+sheet_name = "德语修改"
 # 选择导出文案类型 "iOS","Android"
 global os_type
 # 是否添加头部注释
@@ -185,6 +185,7 @@ def open_files_add():
 
 def add_new_documents(keys, values, flag):
     print("新增%d条文案" % len(values))
+    print("新增中...")
     files = open_files_add()
     for i in range(len(values)):
         tem_values = values[i]
@@ -207,11 +208,13 @@ def add_new_documents(keys, values, flag):
                     line = "\"" + key.strip() + "\" = \"" + format_value(value) + "\";\n"
                 file.write(line)
     close_files(files)
+    print("新增文案成功")
 
 
 # 更新旧文案
 def update_old_documents(keys, values):
     print("修改%d条文案" % len(values))
+    print("修改中...")
     contents = []
     files = open_files_read()
     for i in range(len(files)):
@@ -235,13 +238,18 @@ def update_old_documents(keys, values):
                     value = key_values[i]
                     # 修改行内容
                     # <string name="xxx">details</string>
+                    key = key.strip()
+                    value = format_value(value)
+                    if key is None or key == "" or value is None or value == "":
+                        break
+
                     if os_type == OSType.android.value:
-                        line = "<string name= \"" + key.strip() + "\" >" + format_value(value) + "</string>\n"
-                    elif os_type == OSType.iOS.value:
-                        line = "\"" + key.strip() + "\" = \"" + format_value(value) + "\";\n"
+                        line = "<string name= \"" + key + "\" >" + value + "</string>\n"
+                    else:
+                        line = "\"" + key + "\" = \"" + value + "\";\n"
                     # 删除已经匹配过的key,减少比较次数
-                    keys_values.remove(key_values)
-                    all_keys.remove(key)
+                    del(keys_values[index])
+                    del(all_keys[index])
                     # 不再进行匹配
                     break
             content += line
@@ -252,11 +260,13 @@ def update_old_documents(keys, values):
     for i in range(len(files)):
         files[i].write(contents[i])
     close_files(files)
+    print("修改文案成功")
 
 
 # 删除久文案
 def delete_old_document(keys):
     print("删除%d条文案" % len(keys))
+    print("删除中...")
     contents = []
     files = open_files_read()
 
@@ -288,6 +298,7 @@ def delete_old_document(keys):
     for i in range(len(files)):
         files[i].write(contents[i])
     close_files(files)
+    print("删除文案成功")
 
 
 # 关闭打开的文件
@@ -430,9 +441,11 @@ def start(flag):
         operateType = table.cell(i, CommonCol.edit.value).value
         typeColValue = table.cell(i, CommonCol.os_type.value).value
         keyColValue = table.cell(i, CommonCol.develop_key.value).value
-        if typeColValue.find(os_type) >= 0:
-            if keyColValue is None or keyColValue == "":
-                continue
+
+        if keyColValue is None or keyColValue == "":
+            continue
+        if typeColValue.find(os_type) <= 0:
+            continue
 
         # 取出各个文案的语言
         zhHkColValue = table.cell(i, LanguageCol.zh.value).value
