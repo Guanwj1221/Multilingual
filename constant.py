@@ -3,13 +3,14 @@ from enum import Enum
 
 
 # 项目路径
-soundcore_path = "/Users/Anker/MyProject/Soundcore/iOS/SoundCore/SoundCore/Resource/"
+soundcore_path = "/Users/anker/Downloads/copywrite/"
+# soundcore_path = "/Users/Anker/MyProject/Soundcore/iOS/SoundCore/SoundCore/Resource/"
 anker_work_path = "/Users/Anker/MyProject/AnkerWork/AnkerWork/AnkerWork/Resource/"
 
 anker_work_excel_path = "/Users/Anker/Downloads/多语言文案-Anker work App.xlsx"
 soundcore_excel_path = "/Users/Anker/Downloads/开发使用_SoundCore文案汇总.xlsx"
 # 选择需要导出文案的sheet
-sheet_name = "德语修改"
+sheet_name = "开发新增词条"
 
 ios_file_path = ["Base.lproj/Localizable.strings",
                  "zh-Hans.lproj/Localizable.strings",

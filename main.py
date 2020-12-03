@@ -5,7 +5,6 @@ import xlrd
 import tkinter
 from tkinter import *
 from tkinter import ttk, messagebox
-from enum import Enum
 import re
 import utility
 import constant
@@ -120,6 +119,7 @@ def start(flag):
     # 导出文案
     ready = 0
     end = 0
+    print("开始搜素excel...")
     for i in range(0, rows):
         comment = table.cell(i, CommonCol.common.value).value
         if re.compile(r'(.*%s.*start)' % flag).match(comment):
@@ -129,7 +129,10 @@ def start(flag):
         if ready != 1:
             continue
         if end == 1:
+            print("搜素结束")
             break
+        if i == rows:
+            print("搜素完成")
 
         operate_type = table.cell(i, CommonCol.edit.value).value
         type_col_value = table.cell(i, CommonCol.os_type.value).value
@@ -137,7 +140,7 @@ def start(flag):
 
         if key_col_value is None or key_col_value == "":
             continue
-        if type_col_value.find(os_type) <= 0:
+        if type_col_value.find(os_type) < 0:
             continue
 
         # 取出各个文案的语言
