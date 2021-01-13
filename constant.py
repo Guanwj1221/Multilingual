@@ -3,8 +3,7 @@ from enum import Enum
 
 
 # 项目路径
-soundcore_path = "/Users/anker/Downloads/copywrite/"
-# soundcore_path = "/Users/Anker/MyProject/Soundcore/iOS/SoundCore/SoundCore/Resource/"
+soundcore_path = "/Users/Anker/MyProject/Soundcore/iOS/SoundCore/SoundCore/Resource/"
 anker_work_path = "/Users/Anker/MyProject/AnkerWork/AnkerWork/AnkerWork/Resource/"
 
 anker_work_excel_path = "/Users/Anker/Downloads/多语言文案-Anker work App.xlsx"

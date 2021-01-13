@@ -119,7 +119,7 @@ def start(flag):
     # 导出文案
     ready = 0
     end = 0
-    print("开始搜素excel...")
+    print("开始搜素excel表格...")
     for i in range(0, rows):
         comment = table.cell(i, CommonCol.common.value).value
         if re.compile(r'(.*%s.*start)' % flag).match(comment):
